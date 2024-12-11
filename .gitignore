@@ -1,0 +1,65 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# venv
+.venv/
+.env
+*.env
+venv/
+env/
+
+# logs
+*.log
+logs/
+
+# database files
+*.sqlite3
+*.db
+
+# system files
+.DS_Store
+Thumbs.db
+
+# VSCode
+.vscode/
+
+# pip
+*.egg-info/
+.eggs/
+pip-log.txt
+pip-delete-this-directory.txt
+
+# unit test / coverage reports
+.tox/
+.nox/
+coverage/
+*.cover
+*.py,cover
+
+
+# mypy
+.mypy_cache/
+.pytest_cache/
+
+# PyCharm
+build/
+dist/
+*.egg
+MANIFEST
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# pyenv
+.idea/
+*.iml
+
+# temp files
+*.tmp
+*.swp
+*.bak
+*.old
+*.orig
+*.~lock.*
