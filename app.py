@@ -118,6 +118,49 @@ learning_path = [
      }
    ]
 
+reference = [
+    {
+       "id": 1,
+       "name": "Frontend Engineer",
+       "courses": [
+               "Udemy - The Complete JavaScript Cours",
+               "Frontend Masters - Complete Intro to React"
+       ],
+       "books": [
+         "HTML and CSS: Design and Build Websites",
+         "JavaScript: The Good Parts"
+       ],
+       "certifications": [
+        "Frontend Development Certification (w3school)",
+        "Meta Front-End Developer Professiona (coursera)"
+       ],
+       "practice_projects": [ 
+            "Develop a weather app using a public API.", 
+            "Develop a website version dictionary."
+       ]
+     },
+   {
+       "id": 2, 
+       "name": "Backend Engineer",
+       "courses": [
+               "Udemy - The Complete Node.js Developer Course",
+               "LinkedIn Learning - Learning REST API"
+       ],
+       "books": [
+         "Flask Web Development",
+         "REST API Design Rulebook"
+       ],
+       "certifications": [
+         "Meta Back-End Developer Professional Certificate (Coursera)",
+         "Back End Development and APIs Certification"
+       ],
+       "practice_projects": [ 
+            "Personal Blogging Platform API", 
+            "To-Do List API"
+       ]
+     }
+   ]
+
 
 app = Flask(__name__)
 
@@ -135,6 +178,10 @@ def get_roles():
 @app.route('/learning_path')
 def get_learning_path():
     return jsonify(learning_path)
+
+@app.route('/reference')
+def get_reference():
+    return jsonify(reference)
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=5001, debug=True)
