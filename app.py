@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 
 roles_data = [
   {
@@ -47,6 +47,76 @@ roles_data = [
      }
 ]
 
+learning_path = [
+    {
+       "id": 1,
+       "name": "Frontend Engineer",
+       "learning_path": [
+         "Learn the basics of web development: HTML, CSS, and JavaScript.",
+         "Understand responsive design and CSS frameworks (e.g., Bootstrap, Tailwind CSS).",
+         "Learn JavaScript frameworks/libraries (e.g., React, Angular, Vue.js).",
+         "Gain knowledge of version control systems (e.g., Git).",
+         "Understand RESTful APIs and how to integrate them into web applications.",
+         "Learn about state management libraries (e.g., Redux, Vuex).",
+         "Study web performance optimization techniques.",
+         "Familiarize with accessibility standards (e.g., WCAG).",
+         "Learn testing frameworks for frontend (e.g., Jest, Cypress).",
+         "Stay updated on modern web development trends and tools."
+       ],
+       "skills": [
+         "Proficiency in HTML, CSS, and JavaScript.",
+         "Knowledge of frontend frameworks (React, Angular, Vue.js).",
+         "Understanding of web accessibility and responsive design principles.",
+         "Basic knowledge of backend communication (e.g., REST APIs, GraphQL).",
+         "Strong debugging and troubleshooting skills.",
+         "Familiarity with browser developer tools.",
+         "Ability to write clean, maintainable code."
+       ],
+       "tools": [
+         "Frontend frameworks/libraries: React, Angular, Vue.js",
+         "CSS preprocessors: SASS, LESS",
+         "Version control: Git, GitHub/GitLab/Bitbucket",
+         "Build tools: Webpack, Vite, Parcel",
+         "Testing tools: Jest, Mocha, Cypress",
+         "Design tools: Figma, Adobe XD, Sketch",
+         "Browser developer tools (e.g., Chrome DevTools)"
+       ]
+     },
+   {
+       "id": 2, 
+       "name": "Backend Engineer",
+       "learning_path": [
+         "Learn the basics of programming (e.g., Python, Java, JavaScript, Ruby, etc.).",
+         "Understand how web servers and HTTP protocols work.",
+         "Study server-side programming frameworks (e.g., Node.js, Django, Flask, Spring Boot).",
+         "Learn database management and query languages (e.g., SQL, MongoDB).",
+         "Understand RESTful API design and implementation.",
+         "Familiarize with authentication and authorization techniques (e.g., OAuth, JWT).",
+         "Learn about containerization and deployment (e.g., Docker, Kubernetes).",
+         "Study cloud services (e.g., AWS, Azure, Google Cloud).",
+         "Learn version control (e.g., Git) and CI/CD pipelines.",
+         "Understand software architecture and design patterns."
+       ],
+       "skills": [
+         "Proficiency in a backend programming language (e.g., Python, Java, Node.js).",
+         "Strong understanding of databases and SQL/NoSQL.",
+         "Experience with server-side frameworks (e.g., Express.js, Spring Boot, Flask).",
+         "Knowledge of API design and integration.",
+         "Familiarity with cloud platforms and deployment processes.",
+         "Understanding of version control systems (e.g., Git).",
+         "Ability to write clean, scalable, and secure code."
+       ],
+       "tools": [
+         "Programming languages: Python, Java, JavaScript (Node.js), Ruby",
+         "Frameworks: Express.js, Django, Flask, Spring Boot",
+         "Databases: MySQL, PostgreSQL, MongoDB, Redis",
+         "Version control: Git, GitHub/GitLab/Bitbucket",
+         "Deployment tools: Docker, Kubernetes",
+         "API testing tools: Postman, Swagger",
+         "Cloud platforms: AWS, Azure, Google Cloud"
+       ]
+     }
+   ]
 
 
 app = Flask(__name__)
@@ -57,7 +127,14 @@ def hello_world():
 
 @app.route('/roles')
 def get_roles():
+    # role_name = request.args.get('name')
+    # if role_name:
+    #     filter = 
     return jsonify(roles_data)
 
+@app.route('/learning_path')
+def get_learning_path():
+    return jsonify(learning_path)
+
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    app.run(host="0.0.0.0", port=5001, debug=True)
