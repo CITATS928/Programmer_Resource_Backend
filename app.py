@@ -161,6 +161,65 @@ reference = [
      }
    ]
 
+job_market =  [
+    {
+    "id": 1,
+    "name": "Frontend Engineer",
+      "United States": {
+        "San Francisco": {
+          "salary": "$140,000 per year",
+          "open_positions": 500,
+          "websites": ["Indeed", "LinkedIn"]
+        },
+        "New York": {
+          "salary": "$140,000 per year",
+          "open_positions": 450,
+          "websites": ["Indeed", "LinkedIn"]
+        }
+      },
+      "China": {
+        "Beijing": {
+          "salary": "¥200,000 per year",
+          "open_positions": 300,
+          "websites": ["51Job", "Zhaopin"]
+        },
+        "Shanghai": {
+          "salary": "¥180,000 per year",
+          "open_positions": 280,
+          "websites": ["51Job", "Zhaopin"]
+        }
+      }
+    },
+    {
+    "id": 2,
+    "name": "Backend Engineer",
+      "United States": {
+        "San Francisco": {
+          "salary": "$150,000 per year",
+          "open_positions": 480,
+          "websites": ["Indeed", "LinkedIn"]
+        },
+        "New York": {
+          "salary": "$130,000 per year",
+          "open_positions": 430,
+          "websites": ["Indeed", "LinkedIn"]
+        }
+      },
+      "China": {
+        "Beijing": {
+          "salary": "¥220,000 per year",
+          "open_positions": 290,
+          "websites": ["51Job", "Zhaopin"]
+        },
+        "Shanghai": {
+          "salary": "¥200,000 per year",
+          "open_positions": 270,
+          "websites": ["51Job", "Zhaopin"]
+        }
+      }
+    }
+]
+
 
 app = Flask(__name__)
 
@@ -183,5 +242,9 @@ def get_learning_path():
 def get_reference():
     return jsonify(reference)
 
+@app.route('/job_market')
+def get_job_market():
+    return jsonify(job_market)
+
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=5001, debug=True)
+    app.run(host="0.0.0.0", port=5000, debug=True)
