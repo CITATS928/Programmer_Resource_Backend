@@ -231,7 +231,7 @@ def hello_world():
 def get_roles():
     role_name = request.args.get('name') 
     if role_name:
-        filter =[role for role in roles_data if role['name'].replace(' ', '_').lower() == role_name.replace('_', ' ').lower()]
+        filter =[role for role in roles_data if role['name'].lower() == role_name.replace('_', ' ').lower()]
         if filter:
             return jsonify(filter[0])
         else:
