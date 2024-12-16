@@ -241,6 +241,13 @@ def get_roles():
 
 @app.route('/learning_path')
 def get_learning_path():
+    role_name = request.args.get('name') 
+    if role_name:
+        filter =[role for role in learning_path if role['name'].lower() == role_name.replace('_', ' ').lower()]
+        if filter:
+            return jsonify(filter[0])
+        else:
+            return jsonify({"error": "Role not found."}), 404
     return jsonify(learning_path)
 
 @app.route('/reference')
