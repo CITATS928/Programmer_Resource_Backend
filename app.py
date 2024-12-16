@@ -229,13 +229,25 @@ def hello_world():
 
 @app.route('/roles')
 def get_roles():
-    # role_name = request.args.get('name')
-    # if role_name:
-    #     filter = 
+    role_name = request.args.get('name') 
+    if role_name:
+        filter =[role for role in roles_data if role['name'].lower() == role_name.replace('_', ' ').lower()]
+        if filter:
+            return jsonify(filter[0])
+        else:
+            return jsonify({"error": "Role not found."}), 404
+
     return jsonify(roles_data)
 
 @app.route('/learning_path')
 def get_learning_path():
+    role_name = request.args.get('name') 
+    if role_name:
+        filter =[role for role in learning_path if role['name'].lower() == role_name.replace('_', ' ').lower()]
+        if filter:
+            return jsonify(filter[0])
+        else:
+            return jsonify({"error": "Role not found."}), 404
     return jsonify(learning_path)
 
 @app.route('/reference')
@@ -247,4 +259,4 @@ def get_job_market():
     return jsonify(job_market)
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    app.run(host="0.0.0.0", port=5001, debug=True)
