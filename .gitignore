@@ -63,3 +63,5 @@ MANIFEST
 *.old
 *.orig
 *.~lock.*
+
+*.json
