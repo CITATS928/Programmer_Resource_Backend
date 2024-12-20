@@ -1,6 +1,15 @@
+# use for dynamic web pages
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.common.by import By
+import time
+
+# use for static web pages
 import requests
 from bs4 import BeautifulSoup
 import json
+
 
 def get_roadmap():
     url = 'https://roadmap.sh/frontend'
@@ -12,13 +21,41 @@ def get_roadmap():
     
     soup = BeautifulSoup(response.text, 'html.parser')
 
+    # get title base on h1 tag
     title = soup.find('h1').text.strip()
-    roadmap_steps = [item.text.strip() for item in soup.select("ul li")]
+
+    # get value of 'data-title'
+    data_titles = [item['data-title'] for item in soup.find_all(attrs={"data-title": True})]
 
     return {
         'title': title,
-        'steps': roadmap_steps
+        'steps': data_titles
     }
+
+
+def get_roadmap_with_selenium():
+    service = Service(ChromeDriverManager().install())
+    driver = webdriver.Chrome(service=service)
+
+    try:
+        url = 'https://roadmap.sh/frontend'
+        driver.get(url)
+
+        # loading
+        time.sleep(5)
+
+        title = driver.find_element(By.TAG_NAME, 'h1').text.strip()
+
+        # find all the elements that include 'data-title', then get the value of 'data-title'
+        element = driver.find_elements(By.XPATH, '//*[@data-title]')
+        data_titles = [item.get_attribute('data-title') for item in element]
+
+        return {
+            'title': title,
+            'steps': data_titles
+        }
+    finally:
+        driver.quit()
 
 
 def save_roadmap(data, filename='roadmap.json'):
@@ -28,6 +65,7 @@ def save_roadmap(data, filename='roadmap.json'):
 
 
 if __name__ == '__main__':
-    roadmap = get_roadmap()
+    # roadmap = get_roadmap()
+    roadmap = get_roadmap_with_selenium()
     if roadmap:
         save_roadmap(roadmap)
