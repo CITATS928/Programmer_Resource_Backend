@@ -1,4 +1,5 @@
 name: ecr push image
+
 on:
   push:
 jobs:
