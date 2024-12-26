@@ -273,4 +273,8 @@ def get_job_market():
     return jsonify(job_market)
 
 if __name__ == '__main__':
+    # for local development
     app.run(host="0.0.0.0", port=5001, debug=True)
+
+    # for docker
+    #app.run(host="0.0.0.0", port=5000, debug=True)
