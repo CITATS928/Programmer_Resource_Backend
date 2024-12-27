@@ -7,8 +7,19 @@ from selenium.webdriver.support import expected_conditions as EC
 import time
 import json
 
-def scrape_crouses(base_url, max = 40):
-    pass
+def scrape_crouses():
+
+    service = Service(ChromeDriverManager().install())
+    driver = webdriver.Chrome(service=service)
+
+    max_courses = 40
+    url = "https://www.udemy.com/courses/search/?lang=en&q=frontend&ratings=4.5&sort=relevance&src=sac"
+    
+    try:
+        pass
+    finally:
+        driver.quit()
+
 
 def save_courses(data, filename='frontend_courses.json'):
     with open(filename, "w", encoding="utf-8") as file:
