@@ -87,7 +87,7 @@ def save_courses(data, filename='frontend_courses.json'):
     with open(filename, "w", encoding="utf-8") as file:
         json.dump(data, file, ensure_ascii=False, indent=4)
     print(f"Courses saved to {filename}")
-    pass
+    
 
 if __name__ == '__main__':
     courses = scrape_crouses()
