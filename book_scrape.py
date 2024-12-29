@@ -18,15 +18,65 @@ def scrape_book():
     service = Service(ChromeDriverManager().install())
     driver = webdriver.Chrome(service=service, options=options)
     
-    books = []
-    max_books = 10
-    url = "https://www.goodreads.com/search?page=1&q=frontend&qid=ZLdchY1S03&search_type=books&tab=books&utf8=%E2%9C%93"
 
-    driver.get(url)
-    time.sleep(5)
+    try:
 
-    while len(books) < max_books:
-        pass
+        books = []
+        max_books = 10
+        url = "https://www.goodreads.com/search?page=1&q=frontend&qid=ZLdchY1S03&search_type=books&tab=books&utf8=%E2%9C%93"
+
+        driver.get(url)
+        time.sleep(5)
+
+        while len(books) < max_books:
+            # wait for the page to load
+            try:
+                WebDriverWait(driver, 30).until(
+                    EC.presence_of_all_elements_located((By.CSS_SELECTOR, ".tableList .bookTitle"))
+                )
+            except Exception as e:
+                print("Error: TimeoutException occurred.")
+                raise e
+            
+            book_elements = driver.find_elements(By.CSS_SELECTOR, ".tableList .bookTitle")
+            author_elements = driver.find_elements(By.CSS_SELECTOR, ".tableList .authorName")
+
+            for book, author in zip(book_elements, author_elements):
+                try:
+                    title = book.text.strip()
+                    link = book.get_attribute("href")
+                    author = author.text.strip()
+                    books.append({
+                        "title": title,
+                        "author": author,
+                        "link": link
+                    })
+                except Exception as e:
+                    print(f"Error extracting book title: {e}")
+
+
+            # check reach max
+            if len(books) >= max_books:
+                break
+
+
+            # next page
+            try:
+                next_page = driver.find_element(By.CSS_SELECTOR, ".next_page")
+                if "disabled" in next_page.get_attribute("class"):
+                    break
+                next_page.click()
+                time.sleep(5)
+            except Exception as e:
+                print("Error: No more pages.")
+                break
+
+        return {
+            "topic": "Frontend",
+            "books": books[:max_books]
+        }
+    finally:
+        driver.quit()
 
 
 
