@@ -22,16 +22,31 @@ def scrape_project():
     try:
 
         projects = []
-        max_projects = 10
-        url = ""
+        # max_projects = 10
+        url = "https://www.frontendpractice.com/projects"
 
         driver.get(url)
         time.sleep(5)
 
-        while len(projects) < projects:
-            pass
+        # while len(projects) < projects:
+        project_elements = driver.find_elements(By.CSS_SELECTOR, ".ProjectCardstyled__CardCopy-sc-dqey3j-1 a")
 
+        for project in project_elements:
+            try:
+                name = project.find_element(By.CSS_SELECTOR, "p.cardTitle").text.strip()
+                link = project.get_attribute("href")
+
+                projects.append({
+                    "name": name,
+                    "link": link
+                })
+            except Exception as e:
+                print(f"Error extracting project: {e}")
         
+        return {
+            "topic": "Frontend",
+            "books": projects
+        }
     finally:
         driver.quit()
 
