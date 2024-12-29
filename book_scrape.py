@@ -72,6 +72,7 @@ def scrape_book():
                 break
 
         return {
+            "id": 1,
             "topic": "Frontend",
             "books": books[:max_books]
         }
