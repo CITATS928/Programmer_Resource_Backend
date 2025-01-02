@@ -16,7 +16,9 @@ def fetch_udemy_courses():
     }
     
     headers = {
-		"x-rapidapi-key": "210261bd2amsh9126e118f249d79p1ca575jsn5f5626ea0598",
+        # this is fake key, replace with next line when using
+		"x-rapidapi-key": "this is fake key, replace with next line when using",
+        # "x-rapidapi-key": "210261bd2amsh9126e118f249d79p1ca575jsn5f5626ea0598",
 		"x-rapidapi-host": "udemy-api2.p.rapidapi.com",
 		"Content-Type": "application/json"
     }
