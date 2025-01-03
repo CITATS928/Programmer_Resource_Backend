@@ -125,7 +125,46 @@ def scrape_books():
 
 
 def scrape_projects():
-    pass
+    """
+    
+    """
+    options = Options()
+
+    # Add headless mode and other options to compatible with Docker
+    options.add_argument("--headless")
+    options.add_argument("--disable-gpu")
+    options.add_argument("--no-sandbox")
+    options.add_argument("--disable-dev-shm-usage")
+    options.add_argument("--disable-blink-features=AutomationControlled")
+    options.add_argument("--start-maximized")
+    options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36")
+
+    service = Service(ChromeDriverManager().install())
+    driver = webdriver.Chrome(service=service, options=options)
+
+    try:
+        projects = []
+        url = "https://www.frontendpractice.com/projects"
+
+        driver.get(url)
+        time.sleep(5)
+
+        project_elements = driver.find_elements(By.CSS_SELECTOR, ".ProjectCardstyled__CardCopy-sc-dqey3j-1 a")
+
+        for project in project_elements:
+            try:
+                name = project.find_element(By.CSS_SELECTOR, "p.cardTitle").text.strip()
+                link = project.get_attribute("href")
+
+                projects.append({
+                    "name": name,
+                    "link": link
+                })
+            except Exception as e:
+                print(f"Error extracting project: {e}")
+        return projects
+    finally:
+        driver.quit()
 
 
 def save_to_file(data, filename="frontend_references.json"):
@@ -138,7 +177,7 @@ def save_to_file(data, filename="frontend_references.json"):
 
 if __name__ == '__main__':
     # Fetch data
-    courses = fetch_udemy_courses()
+    # courses = fetch_udemy_courses()
     books = scrape_books()
     projects = scrape_projects()
 
@@ -146,7 +185,7 @@ if __name__ == '__main__':
     combined_data = {
         "id": 1,
         "name": "Frontend Engineer",
-        "courses": courses,
+        # "courses": courses,
         "books": books,
         "projects": projects
     }
