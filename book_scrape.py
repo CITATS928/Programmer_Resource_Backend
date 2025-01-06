@@ -7,10 +7,21 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import time
 import json
+from pymongo import MongoClient
 
+
+# MongoDB connection setup
+CONNECTION_STRING = "mongodb+srv://root:root@programmerresource.dbqww.mongodb.net/"
+client = MongoClient(CONNECTION_STRING)
+db = client["test"]
+collection = db["Reference"]
 
 def scrape_book():
     options = Options()
+    options.add_argument("--headless")
+    options.add_argument("--disable-gpu")
+    options.add_argument("--no-sandbox")
+    options.add_argument("--disable-dev-shm-usage")
     options.add_argument("--disable-blink-features=AutomationControlled")
     options.add_argument("--start-maximized")
     options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36")
@@ -76,6 +87,7 @@ def scrape_book():
             "topic": "Frontend",
             "books": books[:max_books]
         }
+        # return books
     finally:
         driver.quit()
 
@@ -88,7 +100,10 @@ def save_courses(data, filename='frontend_books.json'):
     print(f"Courses saved to {filename}")
     
 
+def save_to_mongodb(data):
+    collection.insert_one(data)
+
 if __name__ == '__main__':
     books = scrape_book()
     if books:
-        save_courses(books)
+        save_to_mongodb(books)
