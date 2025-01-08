@@ -20,7 +20,7 @@ collection = db["Reference"]
 
 def fetch_udemy_courses():
     """
-    
+    Fetch frontend courses from Udemy API
     """
     url = "https://udemy-api2.p.rapidapi.com/v1/udemy/search"
     querystring = {"text":"frontend"}
@@ -64,7 +64,7 @@ def fetch_udemy_courses():
 
 def scrape_books():
     """
-    
+    Scrape books from Goodreads
     """
     options = Options()
     # Add headless mode and other options to compatible with Docker
@@ -135,7 +135,7 @@ def scrape_books():
 
 def scrape_projects():
     """
-    
+    Scrape frontend projects from frontendpractice.com
     """
     options = Options()
 
@@ -178,7 +178,7 @@ def scrape_projects():
 
 def save_to_file(data, filename="frontend_references.json"):
     """
-    
+    Save data to JSON file
     """
     with open(filename, "w", encoding="utf-8") as file:
         json.dump(data, file, ensure_ascii=False, indent=4)
@@ -188,7 +188,7 @@ def save_to_file(data, filename="frontend_references.json"):
 
 def save_to_mongodb(data):
     """
-    
+    Save data to MongoDB Atlas
     """
     collection.insert_one(data)
     print("Data saved to MongoDB")
@@ -199,7 +199,7 @@ if __name__ == '__main__':
     books = scrape_books()
     projects = scrape_projects()
 
-    # Combind data
+    # Combind data, add last_updated field, use to find the newest data
     combined_data = {
         "id": 1,
         "name": "Frontend Engineer",
