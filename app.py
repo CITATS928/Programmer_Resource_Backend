@@ -1,4 +1,13 @@
 from flask import Flask, jsonify, request
+import json
+from pymongo import MongoClient
+from bson.json_util import dumps
+
+# MongoDB connection setup
+CONNECTION_STRING = "mongodb+srv://root:root@programmerresource.dbqww.mongodb.net/"
+client = MongoClient(CONNECTION_STRING)
+db = client["Programmer_Resource"]
+collection = db["Reference"]
 
 roles_data = [
   {
@@ -118,6 +127,46 @@ learning_path = [
      }
    ]
 
+# in the future, when storing in mongodb, need to add a field called "roles" to distinguish different roles
+# Example:
+# {
+#     "_id": "xxxxx",
+#     "roles": [
+#         {
+#             "id": 1,
+#             "name": "Frontend Engineer",
+#             "courses": [
+#                 "Udemy - The Complete JavaScript Course",
+#                 "Frontend Masters - Complete Intro to React"
+#             ],
+#             "books": [
+#                 "HTML and CSS: Design and Build Websites",
+#                 "JavaScript: The Good Parts"
+#             ],
+#             "projects": [
+#                 "Develop a weather app using a public API",
+#                 "Develop a website version dictionary"
+#             ]
+#         },
+#         {
+#             "id": 2,
+#             "name": "Backend Engineer",
+#             "courses": [
+#                 "Udemy - The Complete Node.js Developer Course",
+#                 "LinkedIn Learning - Learning REST API"
+#             ],
+#             "books": [
+#                 "Flask Web Development",
+#                 "REST API Design Rulebook"
+#             ],
+#             "projects": [
+#                 "Personal Blogging Platform API",
+#                 "To-Do List API"
+#             ]
+#         }
+#     ],
+#     "last_updated": "2025-01-07T19:23:37.060Z"
+# }
 reference = [
     {
        "id": 1,
@@ -250,16 +299,32 @@ def get_learning_path():
             return jsonify({"error": "Role not found."}), 404
     return jsonify(learning_path)
 
-@app.route('/reference')
+@app.route('/reference', methods=['GET'])
 def get_reference():
     role_name = request.args.get('name') 
     if role_name:
-        filter =[role for role in reference if role['name'].lower() == role_name.replace('_', ' ').lower()]
-        if filter:
-            return jsonify(filter[0])
+        filter = collection.find({"name": {
+            "$regex": f"^{role_name.replace('_', ' ')}$",
+            "$options": "i"
+          }}).sort("last_updated", -1).limit(1)
+        filter_list = list(filter)
+
+        if filter_list:
+            return jsonify(json.loads(dumps(filter_list[0]))), 200
         else:
             return jsonify({"error": "Role not found."}), 404
-    return jsonify(reference)
+    
+    # if doesn't have name parameter    
+    else:
+        filter = collection.find().sort("last_updated", -1).limit(1)
+        filter_list = list(filter)
+
+        if filter_list:
+            return jsonify(json.loads(dumps(filter_list[0]))), 200
+        else:
+            return jsonify({"error": "Role not found."}), 404
+
+
 
 @app.route('/job_market')
 def get_job_market():
@@ -272,9 +337,14 @@ def get_job_market():
             return jsonify({"error": "Role not found."}), 404
     return jsonify(job_market)
 
+@app.route('/debug_db', methods=['GET'])
+def debug_db():
+    documents = list(collection.find({}, {"_id": 0, "name": 1}))
+    return jsonify(json.loads(dumps(documents))), 200
+
 if __name__ == '__main__':
     # for local development
     app.run(host="0.0.0.0", port=5001, debug=True)
 
     # for docker
-    #app.run(host="0.0.0.0", port=5000, debug=True)
+    # app.run(host="0.0.0.0", port=5000, debug=True)

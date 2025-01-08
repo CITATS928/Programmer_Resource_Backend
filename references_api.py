@@ -8,10 +8,19 @@ from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from pymongo import MongoClient
+import datetime
+
+
+# MongoDB connection setup
+CONNECTION_STRING = "mongodb+srv://root:root@programmerresource.dbqww.mongodb.net/"
+client = MongoClient(CONNECTION_STRING)
+db = client["Programmer_Resource"]
+collection = db["Reference"]
 
 def fetch_udemy_courses():
     """
-    
+    Fetch frontend courses from Udemy API
     """
     url = "https://udemy-api2.p.rapidapi.com/v1/udemy/search"
     querystring = {"text":"frontend"}
@@ -55,7 +64,7 @@ def fetch_udemy_courses():
 
 def scrape_books():
     """
-    
+    Scrape books from Goodreads
     """
     options = Options()
     # Add headless mode and other options to compatible with Docker
@@ -126,7 +135,7 @@ def scrape_books():
 
 def scrape_projects():
     """
-    
+    Scrape frontend projects from frontendpractice.com
     """
     options = Options()
 
@@ -169,11 +178,20 @@ def scrape_projects():
 
 def save_to_file(data, filename="frontend_references.json"):
     """
-    
+    Save data to JSON file
     """
     with open(filename, "w", encoding="utf-8") as file:
         json.dump(data, file, ensure_ascii=False, indent=4)
     print(f"Data saved to {filename}")
+
+
+
+def save_to_mongodb(data):
+    """
+    Save data to MongoDB Atlas
+    """
+    collection.insert_one(data)
+    print("Data saved to MongoDB")
 
 if __name__ == '__main__':
     # Fetch data
@@ -181,14 +199,18 @@ if __name__ == '__main__':
     books = scrape_books()
     projects = scrape_projects()
 
-    # Combind data
+    # Combind data, add last_updated field, use to find the newest data
     combined_data = {
         "id": 1,
         "name": "Frontend Engineer",
         # "courses": courses,
         "books": books,
-        "projects": projects
+        "projects": projects,
+        "last_updated": datetime.datetime.now().isoformat()
     }
 
     # Save data to file
-    save_to_file(combined_data)
+    # save_to_file(combined_data)
+
+    # Save data to MongoDB
+    save_to_mongodb(combined_data)
