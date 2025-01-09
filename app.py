@@ -11,6 +11,7 @@ db = client["Programmer_Resource"]
 # separate collection
 reference_collection = db["Reference"]
 roadmap_collection = db["Roadmap"]
+role_collection = db["Role"]
 
 roles_data = [
   {
@@ -279,17 +280,34 @@ app = Flask(__name__)
 def hello_world():
     return 'Hello, Flask!'
 
-@app.route('/roles')
+@app.route('/roles', methods=['GET'])
 def get_roles():
     role_name = request.args.get('name') 
     if role_name:
-        filter =[role for role in roles_data if role['name'].lower() == role_name.replace('_', ' ').lower()]
-        if filter:
-            return jsonify(filter[0])
+        filter = role_collection.find({"roles.name": {
+            "$regex": f"^{role_name.replace('_', ' ')}$",
+            "$options": "i"
+        }})
+        filter_list = list(filter)
+
+        if filter_list:
+            # filter the role by name
+            roles = [ role for role in filter_list[0]['roles'] if role['name'].lower() == role_name.replace('_', ' ').lower() ]
+            if roles:
+                return jsonify(roles[0]), 200
+            else:
+                return jsonify({"error": "Role not found."}), 404
         else:
             return jsonify({"error": "Role not found."}), 404
+    else:
+        # All roles
+        filter = role_collection.find()
+        filter_list = list(filter)
 
-    return jsonify(roles_data)
+        if filter_list:
+            return jsonify(filter_list[0]["roles"]), 200
+        else:
+            return jsonify({"error": "No roles found."}), 404
 
 
 
