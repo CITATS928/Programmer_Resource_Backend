@@ -33,8 +33,8 @@ def scrape_book():
     options.add_argument("--start-maximized")
     options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36")
 
-    #service = Service(ChromeDriverManager().install()) # Local test
-    service = Service("/usr/local/bin/chromedriver")  # Github Actions test
+    service = Service(ChromeDriverManager().install()) # Local test
+    # service = Service("/usr/local/bin/chromedriver")  # Github Actions test
     driver = webdriver.Chrome(service=service, options=options)
     
 
