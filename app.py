@@ -7,7 +7,11 @@ from bson.json_util import dumps
 CONNECTION_STRING = "mongodb+srv://root:root@programmerresource.dbqww.mongodb.net/"
 client = MongoClient(CONNECTION_STRING)
 db = client["Programmer_Resource"]
-collection = db["Reference"]
+
+# separate collection
+reference_collection = db["Reference"]
+roadmap_collection = db["Roadmap"]
+role_collection = db["Role"]
 
 roles_data = [
   {
@@ -276,34 +280,67 @@ app = Flask(__name__)
 def hello_world():
     return 'Hello, Flask!'
 
-@app.route('/roles')
+@app.route('/roles', methods=['GET'])
 def get_roles():
     role_name = request.args.get('name') 
     if role_name:
-        filter =[role for role in roles_data if role['name'].lower() == role_name.replace('_', ' ').lower()]
-        if filter:
-            return jsonify(filter[0])
+        filter = role_collection.find({"roles.name": {
+            "$regex": f"^{role_name.replace('_', ' ')}$",
+            "$options": "i"
+        }})
+        filter_list = list(filter)
+
+        if filter_list:
+            # filter the role by name
+            roles = [ role for role in filter_list[0]['roles'] if role['name'].lower() == role_name.replace('_', ' ').lower() ]
+            if roles:
+                return jsonify(roles[0]), 200
+            else:
+                return jsonify({"error": "Role not found."}), 404
         else:
             return jsonify({"error": "Role not found."}), 404
+    else:
+        # All roles
+        filter = role_collection.find()
+        filter_list = list(filter)
 
-    return jsonify(roles_data)
+        if filter_list:
+            return jsonify(filter_list[0]["roles"]), 200
+        else:
+            return jsonify({"error": "No roles found."}), 404
 
-@app.route('/learning_path')
-def get_learning_path():
+
+
+@app.route('/roadmap', methods=['GET'])
+def get_roadmap():
     role_name = request.args.get('name') 
     if role_name:
-        filter =[role for role in learning_path if role['name'].lower() == role_name.replace('_', ' ').lower()]
-        if filter:
-            return jsonify(filter[0])
+        filter = roadmap_collection.find({"name": {
+            "$regex": f"^{role_name.replace('_', ' ')}$",
+            "$options": "i"
+        }})
+        filter_list = list(filter)
+
+        if filter_list:
+            return jsonify(json.loads(dumps(filter_list[0]))), 200
         else:
             return jsonify({"error": "Role not found."}), 404
-    return jsonify(learning_path)
+    else: 
+        filter = roadmap_collection.find()
+        filter_list = list(filter)
+
+        if filter_list:
+            return jsonify(json.loads(dumps(filter_list[0]))), 200
+        else:
+            return jsonify({"error": "No roadmap found."}), 404
+
+
 
 @app.route('/reference', methods=['GET'])
 def get_reference():
     role_name = request.args.get('name') 
     if role_name:
-        filter = collection.find({"name": {
+        filter = reference_collection.find({"name": {
             "$regex": f"^{role_name.replace('_', ' ')}$",
             "$options": "i"
           }}).sort("last_updated", -1).limit(1)
@@ -313,10 +350,9 @@ def get_reference():
             return jsonify(json.loads(dumps(filter_list[0]))), 200
         else:
             return jsonify({"error": "Role not found."}), 404
-    
     # if doesn't have name parameter    
     else:
-        filter = collection.find().sort("last_updated", -1).limit(1)
+        filter = reference_collection.find().sort("last_updated", -1).limit(1)
         filter_list = list(filter)
 
         if filter_list:
@@ -339,7 +375,7 @@ def get_job_market():
 
 @app.route('/debug_db', methods=['GET'])
 def debug_db():
-    documents = list(collection.find({}, {"_id": 0, "name": 1}))
+    documents = list(reference_collection.find({}, {"_id": 0, "name": 1}))
     return jsonify(json.loads(dumps(documents))), 200
 
 if __name__ == '__main__':

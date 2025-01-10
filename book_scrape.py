@@ -7,11 +7,14 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import time
 import json
+import os
+import datetime
 from pymongo import MongoClient
 
 
 # MongoDB connection setup
-CONNECTION_STRING = "mongodb+srv://root:root@programmerresource.dbqww.mongodb.net/"
+# CONNECTION_STRING = "mongodb+srv://root:root@programmerresource.dbqww.mongodb.net/"
+CONNECTION_STRING = os.getenv("MONGO_CONNECTION_STRING")
 client = MongoClient(CONNECTION_STRING)
 db = client["test"]
 collection = db["Reference"]
@@ -85,7 +88,8 @@ def scrape_book():
         return {
             "id": 1,
             "topic": "Frontend",
-            "books": books[:max_books]
+            "books": books[:max_books],
+            "last_updated": datetime.datetime.now().isoformat()
         }
         # return books
     finally:
