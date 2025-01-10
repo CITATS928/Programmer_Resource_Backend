@@ -11,13 +11,17 @@ import os
 import datetime
 from pymongo import MongoClient
 
-
-# MongoDB connection setup
-# CONNECTION_STRING = "mongodb+srv://root:root@programmerresource.dbqww.mongodb.net/"
-CONNECTION_STRING = os.getenv("MONGO_CONNECTION_STRING")
-client = MongoClient(CONNECTION_STRING)
-db = client["test"]
-collection = db["Reference"]
+try: 
+    # MongoDB connection setup
+    # CONNECTION_STRING = "mongodb+srv://root:root@programmerresource.dbqww.mongodb.net/"
+    CONNECTION_STRING = os.getenv("MONGO_CONNECTION_STRING")
+    client = MongoClient(CONNECTION_STRING)
+    print("Connected to MongoDB")
+    db = client["test"]
+    collection = db["Reference"]
+except Exception as e:
+    print(f"Error connecting to MongoDB: {e}")
+    raise e
 
 def scrape_book():
     options = Options()
@@ -29,7 +33,8 @@ def scrape_book():
     options.add_argument("--start-maximized")
     options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36")
 
-    service = Service(ChromeDriverManager().install())
+    #service = Service(ChromeDriverManager().install()) # Local test
+    service = Service("/usr/local/bin/chromedriver")  # Github Actions test
     driver = webdriver.Chrome(service=service, options=options)
     
 
