@@ -30,6 +30,13 @@ jobs:
                 python -m pip install --upgrade pip
                 pip install -r requirement.txt
 
+            - name: Install Google Chrome
+              run: |
+                sudo apt-get update
+                sudo apt-get install -y google-chrome-stable
+
+
+
             - name: Run book_scrape.py
               env:
                 MONGO_CONNECTION_STRING: ${{ secrets.MONGO_CONNECTION_STRING }}
