@@ -10,13 +10,21 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from pymongo import MongoClient
 import datetime
+import os
+
+try:
+    # MongoDB connection setup
+    # CONNECTION_STRING = "mongodb+srv://root:root@programmerresource.dbqww.mongodb.net/"
+    CONNECTION_STRING = os.getenv("MONGO_CONNECTION_STRING")
+    client = MongoClient(CONNECTION_STRING)
+    print("Connected to MongoDB")
+    db = client["Programmer_Resource"]
+    collection = db["Reference"]
+except Exception as e:
+    print(f"Error connecting to MongoDB: {e}")
+    raise e
 
 
-# MongoDB connection setup
-CONNECTION_STRING = "mongodb+srv://root:root@programmerresource.dbqww.mongodb.net/"
-client = MongoClient(CONNECTION_STRING)
-db = client["Programmer_Resource"]
-collection = db["Reference"]
 
 def fetch_udemy_courses():
     """
@@ -34,8 +42,8 @@ def fetch_udemy_courses():
     
     headers = {
         # this is fake key, replace with next line when using
-		"x-rapidapi-key": "this is fake key, replace with next line when using",
-        # "x-rapidapi-key": "210261bd2amsh9126e118f249d79p1ca575jsn5f5626ea0598",
+		# "x-rapidapi-key": "this is fake key, replace with next line when using",
+        "x-rapidapi-key": "210261bd2amsh9126e118f249d79p1ca575jsn5f5626ea0598",
 		"x-rapidapi-host": "udemy-api2.p.rapidapi.com",
 		"Content-Type": "application/json"
     }
@@ -195,7 +203,7 @@ def save_to_mongodb(data):
 
 if __name__ == '__main__':
     # Fetch data
-    # courses = fetch_udemy_courses()
+    courses = fetch_udemy_courses()
     books = scrape_books()
     projects = scrape_projects()
 
@@ -203,7 +211,7 @@ if __name__ == '__main__':
     combined_data = {
         "id": 1,
         "name": "Frontend Engineer",
-        # "courses": courses,
+        "courses": courses,
         "books": books,
         "projects": projects,
         "last_updated": datetime.datetime.now().isoformat()
