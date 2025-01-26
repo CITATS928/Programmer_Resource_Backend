@@ -12,6 +12,7 @@ db = client["Programmer_Resource"]
 reference_collection = db["Reference"]
 roadmap_collection = db["Roadmap"]
 role_collection = db["Role"]
+tools_collection = db["Tools"]
 
 roles_data = [
   {
@@ -359,7 +360,40 @@ def get_reference():
             return jsonify(json.loads(dumps(filter_list[0]))), 200
         else:
             return jsonify({"error": "Role not found."}), 404
+        
 
+@app.route('/tools', methods=['GET'])
+def get_tools():
+    tool_name = request.args.get('name')
+    if tool_name:
+        filter = tools_collection.find({"tools.name": {
+            "$regex": f"^{tool_name.replace('_',' ')}$",
+            "$options": "i"
+          }})
+        filter_list = list(filter)
+
+        if filter_list:
+            # return jsonify(json.loads(dumps(filter_list[0]))), 200
+            matched_tools = []
+            for doc in filter_list:
+                tools = doc.get("tools",[])
+                for tool in tools:
+                    if tool["name"].lower() == tool_name.replace('_', ' ').lower():
+                        matched_tools.append(tool)
+            if matched_tools:
+                return jsonify(matched_tools), 200
+            else:
+                return jsonify({"error": "Tool not found."}), 404
+        else:
+            return jsonify({"error": "Tool not found."}), 404
+    else:
+        filter = tools_collection.find()
+        filter_list = list(filter)
+
+        if filter_list:
+            return jsonify(json.loads(dumps(filter_list))), 200
+        else:
+            return jsonify({"error": "No tools found."}), 404
 
 
 @app.route('/job_market')
