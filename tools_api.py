@@ -19,6 +19,13 @@ data = {
         "use_case": "Debugging, network analysis, and performance profiling."
       },
       {
+      "name": "React",
+      "description": "React is a popular JavaScript library for building fast and interactive user interfaces. It emphasizes a component-based architecture, enabling developers to create reusable UI components. It’s widely used for single-page applications (SPAs).",
+      "link": "https://reactjs.org/",
+      "category": "JavaScript Library",
+      "use_case": "Building user interfaces and SPAs"
+      },
+      {
         "name": "Bootstrap",
         "description": "Bootstrap is a free and open-source CSS framework for responsive and mobile-first web development. It provides pre-styled components and utilities for building modern websites quickly.",
         "link": "https://getbootstrap.com/",
