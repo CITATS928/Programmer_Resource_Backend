@@ -316,14 +316,19 @@ def get_roles():
 def get_roadmap():
     role_name = request.args.get('name') 
     if role_name:
-        filter = roadmap_collection.find({"name": {
+        filter = roadmap_collection.find({"roles.name": {
             "$regex": f"^{role_name.replace('_', ' ')}$",
             "$options": "i"
         }})
         filter_list = list(filter)
 
         if filter_list:
-            return jsonify(json.loads(dumps(filter_list[0]))), 200
+            roles = [ role for role in filter_list[0]['roles'] if role['name'].lower() == role_name.replace('_', ' ').lower() ]
+            if roles:
+                return jsonify(roles[0]), 200
+                #return jsonify(json.loads(dumps(filter_list[0]))), 200
+            else:
+                return jsonify({"error": "Role not found."}), 404
         else:
             return jsonify({"error": "Role not found."}), 404
     else: 

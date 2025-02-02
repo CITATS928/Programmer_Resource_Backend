@@ -30,7 +30,12 @@ data = {
                 "entry_level": "$65,000 - $85,000",
                 "mid_level": "$85,000 - $110,000",
                 "senior_level": "$110,000 - $150,000"
-            }
+            },
+            "Learning_difficulty": 4,
+            "Salary_level": 4,
+            "Market_demand": 4,
+            "Job_stability": 4,
+            "Career_Prospects": 5
         },
         {
             "id": 2,
@@ -53,7 +58,12 @@ data = {
                 "entry_level": "$70,000 - $90,000",
                 "mid_level": "$90,000 - $120,000",
                 "senior_level": "$120,000 - $160,000"
-            }
+            },
+            "Learning_difficulty": 4,
+            "Salary_level": 4,
+            "Market_demand": 4,
+            "Job_stability": 4,
+            "Career_Prospects": 5
         }
     ],
 }
