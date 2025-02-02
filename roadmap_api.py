@@ -278,7 +278,7 @@ data = {
 }
 
 
-data2 = {
+old_data2 = {
     "id": 1,
     "name": "Frontend Engineer",
     "learning_path": {
