@@ -273,7 +273,126 @@ data = {
                 "ELK Stack",
                 "Datadog"
             ]
+        },
+    {
+    "id": 3,
+    "name": "DevOps Engineer",
+    "learning_path": {
+        "CoreFundamentals": {
+            "OperatingSystems": [
+                "Learn Linux fundamentals (Ubuntu, CentOS, Alpine, etc.)",
+                "Understand shell scripting (Bash, Zsh, PowerShell)",
+                "Process management, permissions, and system monitoring",
+                "Networking basics (TCP/IP, DNS, HTTP, HTTPS, FTP)"
+            ],
+            "VersionControlAndCollaboration": [
+                "Git fundamentals (branches, merges, rebases, conflict resolution)",
+                "Git workflows (GitHub Flow, GitFlow, trunk-based development)",
+                "VCS hosting platforms (GitHub, GitLab, Bitbucket)"
+            ],
+            "NetworkingAndSecurity": [
+                "Networking protocols (TCP/IP, SSH, VPN, DNS, Load Balancing)",
+                "Firewalls, proxies, and reverse proxies (Nginx, HAProxy)",
+                "Security principles (IAM, TLS/SSL, SSH hardening, OWASP Top 10)"
+            ],
+            "InfrastructureAsCode": [
+                "Infrastructure provisioning tools (Terraform, AWS CloudFormation)",
+                "Configuration management (Ansible, Chef, Puppet, SaltStack)",
+                "Server automation and infrastructure templating"
+            ]
+        },
+        "DevelopmentTools": {
+            "CI/CD": [
+                "Continuous Integration concepts (Jenkins, GitHub Actions, GitLab CI/CD, CircleCI)",
+                "Continuous Deployment and Continuous Delivery (Canary, Blue-Green, Rolling Updates)",
+                "Automating software builds and releases"
+            ],
+            "ContainerizationAndOrchestration": [
+                "Docker fundamentals (image creation, networking, multi-stage builds)",
+                "Container orchestration (Kubernetes, Docker Swarm, Amazon ECS)",
+                "Service mesh technologies (Istio, Linkerd)"
+            ],
+            "MonitoringAndLogging": [
+                "System monitoring (Prometheus, Grafana, Nagios, Datadog)",
+                "Centralized logging (ELK Stack - Elasticsearch, Logstash, Kibana)",
+                "Application performance monitoring (New Relic, OpenTelemetry)"
+            ],
+            "CloudAndServerless": [
+                "Cloud computing platforms (AWS, Azure, Google Cloud)",
+                "Serverless computing (AWS Lambda, Azure Functions, Google Cloud Functions)",
+                "Hybrid and multi-cloud strategies"
+            ]
+        },
+        "AdvancedTopics": {
+            "SiteReliabilityEngineering": [
+                "SLI/SLO/SLA principles",
+                "Chaos engineering (Gremlin, Netflix Chaos Monkey)",
+                "Incident response and post-mortem analysis"
+            ],
+            "SecurityAndCompliance": [
+                "Secrets management (Vault, AWS Secrets Manager, Doppler)",
+                "Policy as code (OPA, AWS SCPs)",
+                "Compliance frameworks (ISO 27001, SOC 2, GDPR, HIPAA)"
+            ],
+            "NetworkingOptimization": [
+                "Load balancing (HAProxy, Nginx, AWS ALB)",
+                "Content Delivery Networks (Cloudflare, Fastly, Akamai)",
+                "Optimizing latency and bandwidth usage"
+            ],
+            "CostOptimizationAndFinOps": [
+                "Cloud cost management (AWS Cost Explorer, Google Cloud Billing, Azure Cost Management)",
+                "Autoscaling and resource efficiency strategies",
+                "Spot instances, reserved instances, and savings plans"
+            ]
         }
+    },
+    "skills": [
+        "Proficiency in Linux system administration",
+        "Understanding of networking (TCP/IP, DNS, Load Balancing, Firewalls)",
+        "Version control with Git",
+        "Experience with Infrastructure as Code (Terraform, Ansible, CloudFormation)",
+        "CI/CD pipeline automation (Jenkins, GitHub Actions, GitLab CI/CD)",
+        "Containerization and orchestration (Docker, Kubernetes, Helm)",
+        "Cloud computing platforms (AWS, Azure, GCP)",
+        "Monitoring and logging tools (Prometheus, Grafana, ELK Stack)",
+        "Security best practices (IAM, VPNs, Secrets Management, OWASP)",
+        "Incident response and disaster recovery planning",
+        "Cost optimization and resource efficiency in cloud computing"
+    ],
+    "tools": [
+        "Linux",
+        "Git",
+        "GitHub",
+        "GitLab",
+        "Bitbucket",
+        "Docker",
+        "Kubernetes",
+        "Helm",
+        "Terraform",
+        "Ansible",
+        "Jenkins",
+        "GitHub Actions",
+        "GitLab CI/CD",
+        "CircleCI",
+        "Prometheus",
+        "Grafana",
+        "ELK Stack (Elasticsearch, Logstash, Kibana)",
+        "Cloudflare",
+        "AWS",
+        "Google Cloud",
+        "Azure",
+        "AWS Lambda",
+        "Google Cloud Functions",
+        "Azure Functions",
+        "CloudFormation",
+        "Vault",
+        "HAProxy",
+        "NGINX",
+        "Fastly",
+        "Akamai"
+    ]
+}
+
     ]
 }
 
