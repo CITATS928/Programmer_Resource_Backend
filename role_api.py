@@ -64,7 +64,36 @@ data = {
             "Market_demand": 4,
             "Job_stability": 4,
             "Career_Prospects": 5
+        },
+        {
+            "id": 3,
+            "name": "DevOps Engineer",
+            "description": "A DevOps Engineer is responsible for bridging the gap between software development and IT operations. They focus on automating processes, improving system reliability, and enhancing the efficiency of software delivery. DevOps Engineers work with CI/CD pipelines, cloud infrastructure, monitoring, and security to ensure a smooth and scalable deployment process.",
+            "responsibilities": [
+                "Design, implement, and maintain CI/CD pipelines for automated software deployment.",
+                "Manage cloud infrastructure and provisioning using tools like Terraform and AWS.",
+                "Monitor system performance, identify bottlenecks, and ensure system reliability.",
+                "Automate repetitive tasks using scripting languages such as Bash, Python, or Ansible.",
+                "Manage containerized applications using Docker and Kubernetes.",
+                "Ensure security best practices for cloud infrastructure and deployments.",
+                "Optimize system performance and scalability for high-traffic applications.",
+                "Collaborate with development teams to improve code quality and deployment speed.",
+                "Implement logging and monitoring tools like Prometheus, Grafana, and ELK Stack.",
+                "Respond to system failures and incidents, conducting root cause analysis and remediation."
+            ],
+            "category": "DevOps",
+            "salary_range": {
+                "entry_level": "$75,000 - $100,000",
+                "mid_level": "$100,000 - $130,000",
+                "senior_level": "$130,000 - $180,000"
+            },
+            "Learning_difficulty": 5,
+            "Salary_level": 5,
+            "Market_demand": 4,
+            "Job_stability": 4,
+            "Career_Prospects": 5
         }
+
     ],
 }
 
