@@ -11,6 +11,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from pymongo import MongoClient
 import datetime
 import os
+import re
 
 try:
     # MongoDB connection setup
@@ -226,6 +227,63 @@ def scrape_backend_projects():
     finally:
         driver.quit()
 
+def scrape_devops_projects():
+    """
+    Scrape DevOps projects from GeeksForGeeks, limiting to 10 valid projects.
+    """
+    options = Options()
+    options.add_argument("--headless")
+    options.add_argument("--disable-gpu")
+    options.add_argument("--no-sandbox")
+    options.add_argument("--disable-dev-shm-usage")
+    options.add_argument("--disable-blink-features=AutomationControlled")
+    options.add_argument("--start-maximized")
+    options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36")
+
+    service = Service(ChromeDriverManager().install())
+    driver = webdriver.Chrome(service=service, options=options)
+
+    try:
+        projects = []
+        url = "https://www.geeksforgeeks.org/devops-projects/"
+
+        driver.get(url)
+        time.sleep(5)
+
+        project_elements = driver.find_elements(By.TAG_NAME, "h3")
+
+        for project_element in project_elements:
+            if len(projects) >= 10:
+                break
+
+            try:
+                raw_name = project_element.text.strip()
+
+                # remove "number. " at the beginning
+                name = re.sub(r"^\d+\.\s*", "", raw_name) 
+
+                link = "No link found"
+
+                # get the link for the project
+                try:
+                    link_element = project_element.find_element(By.XPATH, "./following::blockquote[1]//a")
+                    link = link_element.get_attribute("href").strip()
+                except Exception:
+                    pass
+
+                if name and link != "No link found":
+                    projects.append({
+                        "name": name,
+                        "link": link
+                    })
+
+            except Exception as e:
+                print(f"Error extracting project: {e}")
+
+        return projects[:10]
+    finally:
+        driver.quit()
+
 
 def save_to_file(data, filename="frontend_references.json"):
     """
@@ -254,6 +312,10 @@ if __name__ == '__main__':
     backend_books = scrape_books("backend")
     backend_projects = scrape_backend_projects()
 
+    devops_courses = fetch_udemy_courses("devops")
+    devops_books = scrape_books("devops")
+    devops_projects = scrape_devops_projects()
+
 
     # Combind data, add last_updated field, use to find the newest data
     combined_data = {
@@ -270,6 +332,12 @@ if __name__ == '__main__':
                 "courses": backend_courses,
                 "books": backend_books,
                 "projects": backend_projects
+            },
+            {
+                "name": "DevOps Engineer",
+                "courses": devops_courses,
+                "books": devops_books,
+                "projects": devops_projects
             }
         ],
         "last_updated": datetime.datetime.now().isoformat()
