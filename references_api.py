@@ -15,8 +15,12 @@ import re
 
 try:
     # MongoDB connection setup
-    # CONNECTION_STRING = "mongodb+srv://root:root@programmerresource.dbqww.mongodb.net/"
-    CONNECTION_STRING = os.getenv("MONGO_CONNECTION_STRING")
+    
+    # use for local development
+    CONNECTION_STRING = "mongodb+srv://root:root@programmerresource.dbqww.mongodb.net/"
+
+    # use for Github Actions
+    # CONNECTION_STRING = os.getenv("MONGO_CONNECTION_STRING")
     client = MongoClient(CONNECTION_STRING)
     print("Connected to MongoDB")
     db = client["Programmer_Resource"]
@@ -43,8 +47,8 @@ def fetch_udemy_courses(role):
     
     headers = {
         # this is fake key, replace with next line when using
-		"x-rapidapi-key": "this is fake key, replace with next line when using",
-        # "x-rapidapi-key": "210261bd2amsh9126e118f249d79p1ca575jsn5f5626ea0598",
+		# "x-rapidapi-key": "this is fake key, replace with next line when using",
+        "x-rapidapi-key": "210261bd2amsh9126e118f249d79p1ca575jsn5f5626ea0598",
 		"x-rapidapi-host": "udemy-api2.p.rapidapi.com",
 		"Content-Type": "application/json"
     }
@@ -344,7 +348,7 @@ if __name__ == '__main__':
     }
 
     # Save data to file
-    save_to_file(combined_data)
+    # save_to_file(combined_data)
 
     # Save data to MongoDB
-    # save_to_mongodb(combined_data)
+    save_to_mongodb(combined_data)
