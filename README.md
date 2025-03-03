@@ -37,5 +37,46 @@ A structured learning platform designed to help aspiring programmers explore car
 |GET|/projects?name=devops|Lists projects related to a specific role.|
 
 ---
-## Frontend Github link: 
-https://github.com/survivzhang/programResource_frontend
+
+## 📦 Installation & Usage
+
+### 🔧 Local Setup
+
+1. Clone the repository:
+
+```bash
+git clone https://github.com/yourusername/programmer-resource.git
+cd programmer-resource
+```
+
+2. Create and activate a virtual environment:
+
+```bash
+python -m venv env
+source env/bin/activate   # macOS/Linux
+env\Scripts\activate    #Windows
+```
+
+3. Install dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
+4. Set up MongoDB (Update .env with your MONGO_CONNECTION_STRING).
+
+5. Run the Flask app:
+
+```bash
+python app.py
+```
+
+---
+
+## Frontend Github link
+
+[Frontend GitHub link](https://github.com/survivzhang/programResource_frontend)
+
+## DevOps Github link
+
+[DevOps GitHub link](https://github.com/zhppian/Programmer_Resource_DevOps)
