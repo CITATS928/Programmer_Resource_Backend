@@ -23,3 +23,19 @@ A structured learning platform designed to help aspiring programmers explore car
 - **Automation:** Selenium, GitHub Actions  
 - **Infrastructure:** Docker, AWS
 
+---
+
+## 📡 API Endpoints
+
+📌 The following API endpoints provide structured data:
+
+|Method|Endpoint|Description|
+|------|--------|-----------|
+|GET|/roles|Returns all available programming roles.|
+|GET|/roadmap?name=frontend_engineer|Retrieves the roadmap for a specified role.|
+|GET|/tools?name=docker|Fetches details about a specific tool.|
+|GET|/projects?name=devops|Lists projects related to a specific role.|
+
+---
+## Frontend Github link: 
+https://github.com/survivzhang/programResource_frontend
