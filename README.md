@@ -14,3 +14,12 @@ A structured learning platform designed to help aspiring programmers explore car
 ✅ **Real-world projects:** A collection of hands-on projects from various sources.
 ✅ **Automated updates:** Uses GitHub Actions and Selenium to periodically scrape and update content.
 ✅ **API Endpoints:** Provides access to structured data for further use.
+
+---
+
+## 🔧 Tech Stack  
+
+- **Backend:** Flask, MongoDB, REST API  
+- **Automation:** Selenium, GitHub Actions  
+- **Infrastructure:** Docker, AWS
+
